@@ -4,11 +4,8 @@ import requests as req
 import json,sys,time,random
 
 app_num=os.getenv('APP_NUM')
-redirect_uri=os.getenv('REDIRECT_URI')
 if app_num == '':
     app_num = '1'
-if redirect_uri =='':
-    redirect_uri = r'https://login.microsoftonline.com/common/oauth2/nativeclient'
 access_token_list=['wangziyingwen']*int(app_num)
 ###########################
 # config选项说明
@@ -59,14 +56,13 @@ api_list = [
 
 #微软refresh_token获取
 def getmstoken(ms_token,appnum):
-    #try:except?
     headers={'Content-Type':'application/x-www-form-urlencoded'
             }
     data={'grant_type': 'refresh_token',
         'refresh_token': ms_token,
         'client_id':client_id,
         'client_secret':client_secret,
-        'redirect_uri':redirect_uri,
+        'redirect_uri':'http://localhost:53682/'
         }
     for retry_ in range(4):
         html = req.post('https://login.microsoftonline.com/common/oauth2/v2.0/token',data=data,headers=headers)
